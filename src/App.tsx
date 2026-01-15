@@ -5,9 +5,9 @@ import './App.css';
 import { Header } from './components/Header';
 import { Layout } from './components/Layout';
 import { appTheme } from './config/theme';
-import { CategoryCreate } from './features/categories/create-category';
-import { CategoryEdit } from './features/categories/edit-category';
-import { CategoryList } from './features/categories/list-category';
+import { CategoryCreate } from './features/categories/category-create';
+import { CategoryEdit } from './features/categories/category-edit';
+import { CategoryList } from './features/categories/category-list';
 
 function App() {
   return (
