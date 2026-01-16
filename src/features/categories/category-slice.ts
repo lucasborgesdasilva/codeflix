@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 interface ICategory {
   id: string;
@@ -11,7 +12,7 @@ interface ICategory {
 }
 
 const category: ICategory = {
-  "id": "bc4d8830-9652-4475-adfd-148e73520b51",
+  "id": "bc3d8830-9652-4475-adfd-148e73520b51",
   "name": "Cornsilk",
   "description": "Voluptatibus dolor reprehenderit qui commodi est fugiat.",
   "is_active": true,
@@ -36,5 +37,10 @@ const categoriesSlice = createSlice({
     deleteCategory(state, action) { }
   }
 })
+
+//Selectors
+//O RootState é um tipo que já vem criado na store, e com ele temos acesso a todos os nossos estados
+//então quando criamos um Slice, adicionamos o Reducer dentro do store e a partir desse momento temos acesso aos estados.
+export const selectCategories = (state: RootState) => state.categories;
 
 export default categoriesSlice.reducer;
