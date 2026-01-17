@@ -63,7 +63,6 @@ export const CategoryList = () => {
     )
   }
 
-
   return (
     <Box maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Box display="flex" justifyContent="flex-end">
@@ -77,7 +76,25 @@ export const CategoryList = () => {
         </Button>
       </Box>
 
-      <DataGrid rows={rows} columns={columns} />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          filter: {
+            filterModel: {
+              items: [],
+              quickFilterValues: [],
+            },
+          },
+        }}
+        pageSizeOptions={[2, 20, 50, 100]}
+        filterDebounceMs={500}
+        showToolbar
+        disableColumnFilter
+        disableColumnSelector
+        disableDensitySelector
+        disableRowSelectionOnClick
+      />
     </Box>
   )
 };
