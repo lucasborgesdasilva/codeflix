@@ -11,6 +11,15 @@ export const CategoryList = () => {
   // Inclusive dentro de hooks, ele fala para usarmos o useAppSelector e useAppDispatch ao invés de useSelector e useDispatch.
   const categories = useAppSelector(selectCategories);
 
+  const initialState = {
+    filter: {
+      filterModel: {
+        quickFilterValues: [],
+        items: [],
+      },
+    },
+  }
+
   const rows: GridRowsProp = categories.map(category => ({
     id: category.id,
     name: category.name,
@@ -19,7 +28,18 @@ export const CategoryList = () => {
   }))
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', flex: 1 },
+    {
+      field: 'name',
+      headerName: 'Name',
+      flex: 1,
+      renderCell: (params: GridRenderCellParams) => (
+        <Box sx={{ height: 50, display: "flex", alignItems: "center" }}>
+          <Link style={{ textDecoration: "none" }} to={`/categories/edit/${params.id}`} >
+            <Typography color="primary">{params.value}</Typography>
+          </Link>
+        </Box>
+      ),
+    },
     {
       field: 'is_active',
       headerName: 'Active?',
@@ -76,25 +96,20 @@ export const CategoryList = () => {
         </Button>
       </Box>
 
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          filter: {
-            filterModel: {
-              items: [],
-              quickFilterValues: [],
-            },
-          },
-        }}
-        pageSizeOptions={[2, 20, 50, 100]}
-        filterDebounceMs={500}
-        showToolbar
-        disableColumnFilter
-        disableColumnSelector
-        disableDensitySelector
-        disableRowSelectionOnClick
-      />
+      <Box sx={{ display: "flex", height: 600 }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          disableColumnFilter
+          disableColumnSelector
+          disableDensitySelector
+          disableRowSelectionOnClick
+          filterDebounceMs={500}
+          pageSizeOptions={[2, 20, 50, 100]}
+          initialState={initialState}
+          showToolbar
+        />
+      </Box>
     </Box>
   )
 };

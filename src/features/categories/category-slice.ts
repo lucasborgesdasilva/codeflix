@@ -42,5 +42,19 @@ const categoriesSlice = createSlice({
 //O RootState é um tipo que já vem criado na store, e com ele temos acesso a todos os nossos estados
 //então quando criamos um Slice, adicionamos o Reducer dentro do store e a partir desse momento temos acesso aos estados.
 export const selectCategories = (state: RootState) => state.categories;
+export const selectCategoryById = (state: RootState, id: string | undefined) => {
+  const category = state.categories.find(category => category.id === id);
+  return (
+    category || {
+      id: "",
+      name: "",
+      description: "",
+      is_active: false,
+      deleted_at: null,
+      created_at: "",
+      updated_at: ""
+    }
+  );
+}
 
 export default categoriesSlice.reducer;
