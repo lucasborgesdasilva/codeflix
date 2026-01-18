@@ -28,13 +28,23 @@ export const initialState = [
   { ...category, id: "bc6d8830-9652-4475-adfd-148e73520b51", name: "Banana" },
 ]
 
+//O Redux trabalha com um cara que se chama IME, ele faz com que nosso state fique imutável, parece que mudamos o state
+//Mas por de baixo dos panos ele cria uma cópia do state pra fazer as mutações.
 const categoriesSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
-    createCategory(state, action) { },
-    updateCategory(state, action) { },
-    deleteCategory(state, action) { }
+    createCategory(state, action) {
+      state.push(action.payload);
+    },
+    updateCategory(state, action) {
+      const index = state.findIndex(category => category.id === action.payload.id);
+      state[index] = action.payload;
+    },
+    deleteCategory(state, action) {
+      const index = state.findIndex(category => category.id === action.payload.id);
+      state.splice(index, 1);
+    }
   }
 })
 
@@ -58,3 +68,4 @@ export const selectCategoryById = (state: RootState, id: string | undefined) => 
 }
 
 export default categoriesSlice.reducer;
+export const { createCategory, updateCategory, deleteCategory } = categoriesSlice.actions;

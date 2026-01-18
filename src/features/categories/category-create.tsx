@@ -4,12 +4,15 @@ import {
   Typography
 } from "@mui/material";
 import { useState } from "react";
-import { ICategory } from "./category-slice";
+import { useAppDispatch } from "../../app/hooks";
+import { createCategory, ICategory } from "./category-slice";
 import { CategoryForm } from "./components/category-form";
 
 export const CategoryCreate = () => {
+  const dispatch = useAppDispatch();
+
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [category, setCategory] = useState<ICategory>({
+  const [categoryState, setCategoryState] = useState<ICategory>({
     id: "",
     name: "",
     description: "",
@@ -19,12 +22,20 @@ export const CategoryCreate = () => {
     updated_at: ""
   });
 
-  const handleChange = () => {
-    console.log('Salvo!');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    dispatch(createCategory(categoryState));
   }
 
-  const handleToggle = () => {
-    console.log('Toggled!');
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCategoryState({ ...categoryState, [name]: value })
+  }
+
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setCategoryState({ ...categoryState, [name]: checked })
   }
 
   return (
@@ -32,15 +43,15 @@ export const CategoryCreate = () => {
       <Paper>
         <Box p={2}>
           <Box mb={2}>
-            <Typography variant="h4">Edit Category</Typography>
+            <Typography variant="h4">Create Category</Typography>
           </Box>
         </Box>
 
         <CategoryForm
-          category={category}
+          category={categoryState}
           isDisabled={isDisabled}
           isLoading={false}
-          onSubmit={() => console.log('Submitado!')}
+          handleSubmit={handleSubmit}
           handleChange={handleChange}
           handleToggle={handleToggle}
         />

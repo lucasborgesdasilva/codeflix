@@ -1,21 +1,31 @@
 import { Box, Paper, Typography } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-import { selectCategoryById } from "./category-slice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { ICategory, selectCategoryById, updateCategory } from "./category-slice";
 import { CategoryForm } from "./components/category-form";
 
 export const CategoryEdit = () => {
   const id = useParams().id || "";
+  const dispatch = useAppDispatch();
   const category = useAppSelector(state => selectCategoryById(state, id));
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
-  const handleChange = () => {
-    console.log('Salvo!');
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [categoryState, setCategoryState] = useState<ICategory>(category);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    dispatch(updateCategory(categoryState));
   }
 
-  const handleToggle = () => {
-    console.log('Toggled!');
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCategoryState({ ...categoryState, [name]: value })
+  }
+
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setCategoryState({ ...categoryState, [name]: checked })
   }
 
   return (
@@ -28,10 +38,10 @@ export const CategoryEdit = () => {
         </Box>
 
         <CategoryForm
-          category={category}
+          category={categoryState}
           isDisabled={isDisabled}
           isLoading={false}
-          onSubmit={() => console.log('atualizado!')}
+          handleSubmit={handleSubmit}
           handleChange={handleChange}
           handleToggle={handleToggle}
         />

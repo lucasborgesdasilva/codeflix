@@ -2,14 +2,16 @@ import { Delete } from "@mui/icons-material";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-import { selectCategories } from "./category-slice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { deleteCategory, selectCategories } from "./category-slice";
 
 export const CategoryList = () => {
   // Dentro de Hooks o react-reducer já tem criado um hook com a tipagem do store e passando o useSelector
   // Então ao invés de usar o useSelector direto, sem a tipagem, usamos o que o react-reducer criou
   // Inclusive dentro de hooks, ele fala para usarmos o useAppSelector e useAppDispatch ao invés de useSelector e useDispatch.
   const categories = useAppSelector(selectCategories);
+
+  const dispatch = useAppDispatch();
 
   const initialState = {
     filter: {
@@ -59,9 +61,14 @@ export const CategoryList = () => {
       headerAlign: "center",
       flex: 1,
       align: "center",
+      type: "string",
       renderCell: renderActionsCell,
     },
   ];
+
+  function handleDeleteCategory(id: string) {
+    dispatch(deleteCategory(id));
+  }
 
   function renderIsActiveCell(row: GridRenderCellParams) {
     return (
@@ -75,7 +82,7 @@ export const CategoryList = () => {
     return (
       <IconButton
         color="secondary"
-        onClick={() => console.log(params.value)}
+        onClick={() => handleDeleteCategory(params.value)}
         aria-label="delete"
       >
         <Delete />
