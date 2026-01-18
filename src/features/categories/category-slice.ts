@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-interface ICategory {
+export interface ICategory {
   id: string;
   name: string;
   description: string | null;
