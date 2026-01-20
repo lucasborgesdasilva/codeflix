@@ -38,13 +38,7 @@ export const CategoryList = () => {
       field: 'name',
       headerName: 'Name',
       flex: 1,
-      renderCell: (params: GridRenderCellParams) => (
-        <Box sx={{ height: 50, display: "flex", alignItems: "center" }}>
-          <Link style={{ textDecoration: "none" }} to={`/categories/edit/${params.id}`} >
-            <Typography color="primary">{params.value}</Typography>
-          </Link>
-        </Box>
-      ),
+      renderCell: renderNameCell
     },
     {
       field: 'is_active',
@@ -91,6 +85,16 @@ export const CategoryList = () => {
       >
         <Delete />
       </IconButton>
+    )
+  }
+
+  function renderNameCell(params: GridRenderCellParams) {
+    return (
+      <Box sx={{ height: 50, display: "flex", alignItems: "center" }}>
+        <Link style={{ textDecoration: "none" }} to={`/categories/edit/${params.id}`} >
+          <Typography color="primary">{params.value}</Typography>
+        </Link>
+      </Box>
     )
   }
 
