@@ -2,18 +2,20 @@ import { Delete } from "@mui/icons-material";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { deleteCategory, selectCategories } from "./category-slice";
+import { useAppDispatch } from "../../app/hooks";
+import { useDeleteCategoryMutation, useGetCategoriesQuery } from "./category-slice";
 
 export const CategoryList = () => {
+  const { data, isFetching, error } = useGetCategoriesQuery();
+  const [deleteCategory, deleteCategoryStatus] = useDeleteCategoryMutation();
+  const { enqueueSnackbar } = useSnackbar();
+
   // Dentro de Hooks o react-reducer já tem criado um hook com a tipagem do store e passando o useSelector
   // Então ao invés de usar o useSelector direto, sem a tipagem, usamos o que o react-reducer criou
   // Inclusive dentro de hooks, ele fala para usarmos o useAppSelector e useAppDispatch ao invés de useSelector e useDispatch.
-  const categories = useAppSelector(selectCategories);
-
   const dispatch = useAppDispatch();
-  const { enqueueSnackbar } = useSnackbar();
 
   const initialState = {
     filter: {
@@ -24,12 +26,12 @@ export const CategoryList = () => {
     },
   }
 
-  const rows: GridRowsProp = categories.map(category => ({
+  const rows: GridRowsProp = data ? data.data.map((category) => ({
     id: category.id,
     name: category.name,
     is_active: category.is_active,
     createdAt: new Date(category.created_at)
-  }))
+  })) : [];
 
   const columns: GridColDef[] = [
     {
@@ -68,9 +70,8 @@ export const CategoryList = () => {
     },
   ];
 
-  function handleDeleteCategory(id: string) {
-    dispatch(deleteCategory(id));
-    enqueueSnackbar("Success deleted category!", { variant: "success" });
+  async function handleDeleteCategory(id: string) {
+    await deleteCategory({ id });
   }
 
   function renderIsActiveCell(row: GridRenderCellParams) {
@@ -92,6 +93,16 @@ export const CategoryList = () => {
       </IconButton>
     )
   }
+
+  useEffect(() => {
+    if (deleteCategoryStatus.isSuccess) {
+      enqueueSnackbar("Category deleted success!", { variant: "success" });
+    }
+
+    if (deleteCategoryStatus.error) {
+      enqueueSnackbar("Category not deleted", { variant: "error" });
+    }
+  }, [deleteCategoryStatus, enqueueSnackbar])
 
   return (
     <Box maxWidth="lg" sx={{ mt: 4, mb: 4 }}>

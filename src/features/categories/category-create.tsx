@@ -24,7 +24,6 @@ export const CategoryCreate = () => {
     updated_at: ""
   });
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(createCategory(categoryState));
@@ -49,7 +48,6 @@ export const CategoryCreate = () => {
             <Typography variant="h4">Create Category</Typography>
           </Box>
         </Box>
-
         <CategoryForm
           category={categoryState}
           isDisabled={isDisabled}
