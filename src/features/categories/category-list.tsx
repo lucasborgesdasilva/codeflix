@@ -7,11 +7,14 @@ import { useDeleteCategoryMutation, useGetCategoriesQuery } from "./category-sli
 import { CategoryTable } from "./components/category-table";
 
 export const CategoryList = () => {
+  const [page, setPage] = useState(1);
   const [perPage] = useState(10);
+  const [search, setSearch] = useState("");
   const [rowsPerPage] = useState([10, 25, 50, 100]);
-  const [search, setSearch] = useState([]);
 
-  const { data, isFetching, error } = useGetCategoriesQuery();
+  const options = { perPage, search, page }
+
+  const { data, isFetching, error } = useGetCategoriesQuery(options);
   const [deleteCategory, deleteCategoryStatus] = useDeleteCategoryMutation();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -23,12 +26,12 @@ export const CategoryList = () => {
     console.log(page)
   }
 
-  function handleOnPageSizeChange(page: number) {
-    console.log(page)
+  function handleOnPageSizeChange(pageSize: number) {
+    console.log(pageSize)
   }
 
-  function handleOnFilterChange(filterModel: GridFilterModel) {
-    console.log(filterModel)
+  function handleOnFilterChange(model: GridFilterModel) {
+    console.log(model)
   }
 
   useEffect(() => {

@@ -37,7 +37,6 @@ export const CategoryTable = ({
 
   const rowCount = data?.meta.total ?? 0;
 
-
   const rows: GridRowsProp = data ? mapDataToGridRows(data) : [];
   const columns: GridColDef[] = [
     {
@@ -135,6 +134,7 @@ export const CategoryTable = ({
           handleOnPageChange(model.page + 1);
           handleOnPageSizeChange(model.pageSize);
         }}
+        onFilterModelChange={handleFilterChange}
       />
     </Box>
   )

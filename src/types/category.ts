@@ -36,3 +36,10 @@ export interface Meta {
   to: number;
   total: number;
 }
+
+export interface CategoryParams {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  isActive?: boolean;
+}
