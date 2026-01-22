@@ -9,7 +9,7 @@ type Props = {
   data: Results | undefined;
   perPage: number;
   isFetching: boolean;
-  rowsPerPage?: number;
+  rowsPerPage?: number[];
   handleOnPageChange: (page: number) => void;
   handleFilterChange: (filterModel: GridFilterModel) => void;
   handleOnPageSizeChange: (perPage: number) => void;
@@ -75,7 +75,7 @@ export const CategoryTable = ({
     return categories.map(category => ({
       id: category.id,
       name: category.name,
-      isActive: category.is_active,
+      is_active: category.is_active,
       createdAt: new Date(category.created_at),
     }));
   }
@@ -120,7 +120,7 @@ export const CategoryTable = ({
         paginationMode="server"
         paginationModel={paginationModel}
         pagination
-        pageSizeOptions={[5, 10, 20]}
+        pageSizeOptions={rowsPerPage}
         loading={isFetching}
         rowCount={rowCount}
         disableColumnFilter
