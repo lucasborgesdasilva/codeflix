@@ -1,6 +1,7 @@
 import { Delete } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridFilterModel, GridRenderCellParams, GridRowsProp } from "@mui/x-data-grid";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Results } from "../../../types/category";
 
@@ -25,17 +26,19 @@ export const CategoryTable = ({
   handleOnPageSizeChange,
   handleDelete
 }: Props) => {
-  const initialState = {
-    filter: {
-      filterModel: {
-        quickFilterValues: [],
-        items: [],
-      },
-    },
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: perPage,
+  });
+
+  const filterModel = {
+    items: [],
   }
 
-  const rows: GridRowsProp = data ? mapDataToGridRows(data) : [];
+  const rowCount = data?.meta.total ?? 0;
 
+
+  const rows: GridRowsProp = data ? mapDataToGridRows(data) : [];
   const columns: GridColDef[] = [
     {
       field: 'name',
@@ -112,14 +115,26 @@ export const CategoryTable = ({
       <DataGrid
         rows={rows}
         columns={columns}
+        filterMode="server"
+        filterModel={filterModel}
+        paginationMode="server"
+        paginationModel={paginationModel}
+        pagination
+        pageSizeOptions={[5, 10, 20]}
+        loading={isFetching}
+        rowCount={rowCount}
         disableColumnFilter
         disableColumnSelector
         disableDensitySelector
         disableRowSelectionOnClick
-        filterDebounceMs={500}
-        pageSizeOptions={[2, 20, 50, 100]}
-        initialState={initialState}
         showToolbar
+        checkboxSelection={false}
+        onPaginationModelChange={model => {
+          setPaginationModel(model);
+
+          handleOnPageChange(model.page + 1);
+          handleOnPageSizeChange(model.pageSize);
+        }}
       />
     </Box>
   )
