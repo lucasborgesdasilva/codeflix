@@ -32,7 +32,7 @@ export const CategoryList = () => {
 
   function handleOnFilterChange(filterModel: GridFilterModel) {
     if (filterModel.quickFilterValues?.length) {
-      const search = filterModel.quickFilterValues.join("");
+      const search = filterModel.quickFilterValues.join(" ");
       return setSearch(search);
     }
 
@@ -47,7 +47,11 @@ export const CategoryList = () => {
     if (deleteCategoryStatus.error) {
       enqueueSnackbar("Category not deleted", { variant: "error" });
     }
-  }, [deleteCategoryStatus, enqueueSnackbar])
+
+    if (error) {
+      enqueueSnackbar("Error fetching categories", { variant: "error" });
+    }
+  }, [deleteCategoryStatus, enqueueSnackbar, error])
 
   return (
     <Box maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -64,8 +68,8 @@ export const CategoryList = () => {
 
       <CategoryTable
         data={data}
-        isFetching={isFetching}
         perPage={perPage}
+        isFetching={isFetching}
         rowsPerPage={rowsPerPage}
         handleDelete={handleDeleteCategory}
         handleOnPageChange={handleOnPageChange}

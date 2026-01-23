@@ -15,7 +15,7 @@ export interface Category {
   name: string;
   description: null | string;
   is_active: boolean;
-  deleted_at: null;
+  deleted_at: string;
   created_at: string;
   updated_at: string;
 }

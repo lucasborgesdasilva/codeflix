@@ -1,9 +1,9 @@
 import { Box, Button, FormControl, FormControlLabel, FormGroup, Grid, Switch, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { ICategory } from '../category-slice';
+import { Category } from '../../../types/category';
 
 type FormProps = {
-  category: ICategory;
+  category: Category;
   isDisabled?: boolean;
   isLoading?: boolean;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;

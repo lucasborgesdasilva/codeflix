@@ -3,16 +3,6 @@ import { RootState } from "../../app/store";
 import { Category, CategoryParams, Result, Results } from "../../types/category";
 import { apiSlice } from "../api/api-slice";
 
-export interface ICategory {
-  id: string;
-  name: string;
-  description: string | null;
-  is_active: boolean;
-  deleted_at: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
 const endpointUrl = "/categories";
 
 function parseQueryParams(params: CategoryParams) {
@@ -47,11 +37,23 @@ function deleteCategoryMutation(category: Category) {
   };
 }
 
+function createCategoryMutation(category: Category) {
+  return {
+    url: endpointUrl,
+    method: "POST",
+    body: category
+  }
+}
+
 const categoriesApiSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
     getCategories: query<Results, CategoryParams>({
       query: getCategories,
       providesTags: ["Categories"]
+    }),
+    createCategory: mutation<Result, Category>({
+      query: createCategoryMutation,
+      invalidatesTags: ["Categories"],
     }),
     deleteCategory: mutation<Result, { id: string }>({
       query: deleteCategoryMutation,
@@ -60,12 +62,12 @@ const categoriesApiSlice = apiSlice.injectEndpoints({
   })
 })
 
-const category: ICategory = {
+const category: Category = {
   "id": "bc3d8830-9652-4475-adfd-148e73520b51",
   "name": "Cornsilk",
   "description": "Voluptatibus dolor reprehenderit qui commodi est fugiat.",
   "is_active": true,
-  "deleted_at": null,
+  "deleted_at": "",
   "created_at": "2026-01-15T01:45:33+0000",
   "updated_at": "2026-01-15T01:45:33+0000"
 }
@@ -109,7 +111,7 @@ export const selectCategoryById = (state: RootState, id: string | undefined) => 
       name: "",
       description: "",
       is_active: false,
-      deleted_at: null,
+      deleted_at: "",
       created_at: "",
       updated_at: ""
     }
@@ -121,5 +123,6 @@ export const { createCategory, updateCategory, deleteCategory } = categoriesSlic
 
 export const {
   useGetCategoriesQuery,
-  useDeleteCategoryMutation
+  useDeleteCategoryMutation,
+  useCreateCategoryMutation
 } = categoriesApiSlice
