@@ -34,11 +34,7 @@ function parseQueryParams(params: CategoryParams) {
   return query.toString();
 }
 
-function getCategories({
-  page = 1,
-  perPage = 10,
-  search = ""
-}) {
+function getCategories({ page = 1, perPage = 10, search = "" }) {
   const params = { page, perPage, search, isActive: true };
 
   return `${endpointUrl}?${parseQueryParams(params)}`

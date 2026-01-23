@@ -116,6 +116,7 @@ export const CategoryTable = ({
         columns={columns}
         filterMode="server"
         filterModel={filterModel}
+        filterDebounceMs={300}
         paginationMode="server"
         paginationModel={paginationModel}
         pagination
@@ -131,7 +132,7 @@ export const CategoryTable = ({
         onPaginationModelChange={model => {
           setPaginationModel(model);
 
-          handleOnPageChange(model.page + 1);
+          handleOnPageChange(model.page);
           handleOnPageSizeChange(model.pageSize);
         }}
         onFilterModelChange={handleFilterChange}

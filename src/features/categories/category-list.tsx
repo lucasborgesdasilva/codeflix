@@ -8,7 +8,7 @@ import { CategoryTable } from "./components/category-table";
 
 export const CategoryList = () => {
   const [page, setPage] = useState(1);
-  const [perPage] = useState(10);
+  const [perPage, setPerPage] = useState(10);
   const [search, setSearch] = useState("");
   const [rowsPerPage] = useState([10, 25, 50, 100]);
 
@@ -23,15 +23,20 @@ export const CategoryList = () => {
   }
 
   function handleOnPageChange(page: number) {
-    console.log(page)
+    setPage(page + 1);
   }
 
-  function handleOnPageSizeChange(pageSize: number) {
-    console.log(pageSize)
+  function handleOnPageSizeChange(perPage: number) {
+    setPerPage(perPage)
   }
 
-  function handleOnFilterChange(model: GridFilterModel) {
-    console.log(model)
+  function handleOnFilterChange(filterModel: GridFilterModel) {
+    if (filterModel.quickFilterValues?.length) {
+      const search = filterModel.quickFilterValues.join("");
+      return setSearch(search);
+    }
+
+    return setSearch("")
   }
 
   useEffect(() => {
