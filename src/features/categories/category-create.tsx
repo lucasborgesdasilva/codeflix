@@ -12,7 +12,6 @@ import { CategoryForm } from "./components/category-form";
 export const CategoryCreate = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [createCategory, status] = useCreateCategoryMutation();
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [categoryState, setCategoryState] = useState<Category>({
     id: "",
     name: "",
@@ -41,14 +40,11 @@ export const CategoryCreate = () => {
   useEffect(() => {
     if (status.isSuccess) {
       enqueueSnackbar("Category created successfully!", { variant: "success" });
-      setIsDisabled(true);
     }
 
     if (status.error) {
       enqueueSnackbar("Some went wrong!", { variant: "error" });
     }
-
-    return setIsDisabled(false);
   }, [enqueueSnackbar, status.error, status.isSuccess])
 
   return (
@@ -61,7 +57,7 @@ export const CategoryCreate = () => {
         </Box>
         <CategoryForm
           category={categoryState}
-          isDisabled={isDisabled}
+          isDisabled={status.isLoading}
           isLoading={false}
           handleSubmit={handleSubmit}
           handleChange={handleChange}

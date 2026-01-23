@@ -29,7 +29,7 @@ export function CategoryForm({
                 required
                 name="name"
                 label="Name"
-                value={category.name}
+                value={category.name ?? ""}
                 disabled={isDisabled}
                 onChange={handleChange}
               />
@@ -42,7 +42,7 @@ export function CategoryForm({
                 required
                 name="description"
                 label="Description"
-                value={category.description}
+                value={category.description ?? ""}
                 disabled={isDisabled}
                 onChange={handleChange}
               />
