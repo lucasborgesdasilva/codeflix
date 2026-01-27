@@ -6,6 +6,7 @@ import './App.css';
 import { Header } from './components/Header';
 import { Layout } from './components/Layout';
 import { appTheme } from './config/theme';
+import { CastMembersList } from './features/cast-members/cast-members-list';
 import { CategoryCreate } from './features/categories/category-create';
 import { CategoryEdit } from './features/categories/category-edit';
 import { CategoryList } from './features/categories/category-list';
@@ -23,7 +24,12 @@ function App() {
           <Layout>
             <Routes>
               <Route path='/' element={<CategoryList />} />
+
               <Route path='categories' element={<CategoryList />} />
+              <Route path='categories/create' element={<CategoryCreate />} />
+              <Route path='categories/edit/:id' element={<CategoryEdit />} />
+
+              <Route path='cast-members' element={<CastMembersList />} />
               <Route path='categories/create' element={<CategoryCreate />} />
               <Route path='categories/edit/:id' element={<CategoryEdit />} />
 
