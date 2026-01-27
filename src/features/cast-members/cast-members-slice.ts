@@ -42,6 +42,13 @@ function getCastMembers(params: CastMemberParams) {
   })}`
 }
 
+function getCastMember({ id }: { id: string }) {
+  return {
+    url: `${endpointUrl}/${id}`,
+    method: "GET"
+  };
+}
+
 function deleteCastMember({ id }: { id: string }) {
   return {
     url: `${endpointUrl}/${id}`,
@@ -49,21 +56,52 @@ function deleteCastMember({ id }: { id: string }) {
   };
 }
 
+function createCastMember(castMember: CastMember) {
+  return {
+    url: endpointUrl,
+    method: "POST",
+    body: castMember
+  };
+}
+
+function updateCastMember(castMember: CastMember) {
+  return {
+    url: `${endpointUrl}/${castMember.id}`,
+    method: "PUT",
+    body: castMember
+  };
+}
+
 const castMembersApiSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
     getCastMembers: query<Results, CastMemberParams>({
       query: getCastMembers,
+      providesTags: ["CastMembers"] //Essa tag será associada aos dados em cache retornados por essa consulta.
+    }),
+    getCastMember: query<Result, { id: string }>({
+      query: getCastMember,
       providesTags: ["CastMembers"]
     }),
     deleteCastMember: mutation<Result, { id: string }>({
       query: deleteCastMember,
+      invalidatesTags: ["CastMembers"] //Quando uma mutação ocorre, os dados em cache associados a essa tag serão invalidados.
+    }),
+    createCastMember: mutation<Result, CastMember>({
+      query: createCastMember,
       invalidatesTags: ["CastMembers"]
     }),
+    updateCastMember: mutation<Result, CastMember>({
+      query: updateCastMember,
+      invalidatesTags: ["CastMembers"]
+    })
   })
 });
 
 export const {
+  useGetCastMemberQuery,
   useGetCastMembersQuery,
-  useDeleteCastMemberMutation
+  useUpdateCastMemberMutation,
+  useDeleteCastMemberMutation,
+  useCreateCastMemberMutation,
 } = castMembersApiSlice;
 
