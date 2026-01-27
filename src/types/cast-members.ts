@@ -1,10 +1,10 @@
 export interface Results {
-  data: Result[];
+  data: CastMember[];
   links: Links;
   meta: Meta;
 }
 
-export interface Result {
+export interface CastMember {
   id: string;
   name: string;
   type: number;
