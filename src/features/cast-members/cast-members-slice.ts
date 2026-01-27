@@ -1,4 +1,4 @@
-import { CastMember, CastMemberParams, Results } from "../../types/cast-members";
+import { CastMember, CastMemberParams, Result, Results } from "../../types/cast-members";
 import { apiSlice } from "../api/api-slice";
 
 const endpointUrl = "/cast_members";
@@ -42,16 +42,28 @@ function getCastMembers(params: CastMemberParams) {
   })}`
 }
 
+function deleteCastMember({ id }: { id: string }) {
+  return {
+    url: `${endpointUrl}/${id}`,
+    method: "DELETE"
+  };
+}
+
 const castMembersApiSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
     getCastMembers: query<Results, CastMemberParams>({
       query: getCastMembers,
       providesTags: ["CastMembers"]
-    })
+    }),
+    deleteCastMember: mutation<Result, { id: string }>({
+      query: deleteCastMember,
+      invalidatesTags: ["CastMembers"]
+    }),
   })
 });
 
 export const {
-  useGetCastMembersQuery
+  useGetCastMembersQuery,
+  useDeleteCastMemberMutation
 } = castMembersApiSlice;
 
