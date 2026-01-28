@@ -1,45 +1,73 @@
+import { Box, Button } from "@mui/material";
 import { GridFilterModel } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
-import { useGetCastMembersQuery } from "./cast-members-slice";
+import { Link } from "react-router-dom";
+import { useDeleteCastMemberMutation, useGetCastMembersQuery } from "./cast-members-slice";
+
+const initialOptions = {
+  page: 1,
+  search: "",
+  perPage: 10,
+  rowsPerPage: [10, 20, 30],
+}
 
 export const CastMembersList = () => {
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const [search, setSearch] = useState("");
-  const [rowsPerPage] = useState([10, 25, 50, 100]);
-
   const { enqueueSnackbar } = useSnackbar();
-
-  const options = { perPage, search, page }
-
+  const [options, setOptions] = useState(initialOptions);
   const { data, isFetching, error } = useGetCastMembersQuery(options);
+  const [deleteCastMember, deleteCastMemberStatus] = useDeleteCastMemberMutation();
+
+  async function deleteCastMembers(id: string) {
+    await deleteCastMember({ id })
+  }
 
   function handleOnPageChange(page: number) {
-    setPage(page + 1);
+    options.page = page;
+    setOptions({ ...options, page })
   }
 
   function handleOnPageSizeChange(perPage: number) {
-    setPerPage(perPage)
+    options.perPage = perPage;
+    setOptions({ ...options, perPage })
   }
 
   function handleOnFilterChange(filterModel: GridFilterModel) {
     if (filterModel.quickFilterValues?.length) {
       const search = filterModel.quickFilterValues.join(" ");
-      return setSearch(search);
+      options.search = search;
+      return setOptions({ ...options, search });
     }
 
-    return setSearch("")
+    return setOptions({ ...options, search: "" })
   }
 
   useEffect(() => {
+    if (deleteCastMemberStatus.isSuccess) {
+      enqueueSnackbar("Cast member deleted!", { variant: "success" });
+    }
 
+    if (deleteCastMemberStatus.error) {
+      enqueueSnackbar("Cast member not deleted", { variant: "error" });
+    }
 
     if (error) {
-      enqueueSnackbar("Error fetching categories", { variant: "error" });
+      enqueueSnackbar("Error fetching cast members", { variant: "error" });
     }
-  }, [enqueueSnackbar, error])
+  }, [deleteCastMemberStatus, enqueueSnackbar, error])
+
   return (
-    <div>CastMembersList</div>
+    <Box maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Box display="flex" justifyContent="flex-end">
+        <Button
+          variant="contained"
+          color="secondary"
+          component={Link}
+          to="/cast-members/create"
+          sx={{ marginBottom: "1rem" }}>
+          New Cast Member
+        </Button>
+      </Box>
+    </Box>
   )
 }
