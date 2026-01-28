@@ -123,7 +123,6 @@ export const CastMembersTable = ({
         showToolbar
         checkboxSelection={false}
         onPaginationModelChange={model => {
-          console.log("Cai aqui " + model.page + model.pageSize)
           setPaginationModel(model);
 
           handleOnPageChange(model.page);
