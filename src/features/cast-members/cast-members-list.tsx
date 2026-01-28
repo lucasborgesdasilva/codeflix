@@ -6,16 +6,16 @@ import { Link } from "react-router-dom";
 import { useDeleteCastMemberMutation, useGetCastMembersQuery } from "./cast-members-slice";
 import { CastMembersTable } from "./components/cast-members-table";
 
-const initialOptions = {
-  page: 1,
-  search: "",
-  perPage: 10,
-  rowsPerPage: [10, 20, 30],
-}
 
 export const CastMembersList = () => {
   const { enqueueSnackbar } = useSnackbar();
-  const [options, setOptions] = useState(initialOptions);
+  const [options, setOptions] = useState({
+    page: 1,
+    perPage: 10,
+    search: "",
+    rowsPerPage: [10, 20, 30]
+  });
+
   const { data, isFetching, error } = useGetCastMembersQuery(options);
   const [deleteCastMember, deleteCastMemberStatus] = useDeleteCastMemberMutation();
 
@@ -24,20 +24,32 @@ export const CastMembersList = () => {
   }
 
   function handleOnPageChange(page: number) {
-    setOptions({ ...options, page })
+    setOptions(prev => ({
+      ...prev,
+      page: page + 1
+    }))
   }
 
   function handleOnPageSizeChange(perPage: number) {
-    setOptions({ ...options, perPage })
+    setOptions(prev => ({
+      ...prev,
+      perPage
+    }))
   }
 
   function handleOnFilterChange(filterModel: GridFilterModel) {
     if (filterModel.quickFilterValues?.length) {
       const search = filterModel.quickFilterValues.join(" ");
-      return setOptions({ ...options, search });
+      return setOptions(prev => ({
+        ...prev,
+        search
+      }));
     }
 
-    return setOptions({ ...options, search: "" })
+    return setOptions(prev => ({
+      ...prev,
+      search: ""
+    }));
   }
 
   useEffect(() => {

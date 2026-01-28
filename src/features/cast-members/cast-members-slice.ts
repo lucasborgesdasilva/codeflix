@@ -32,12 +32,7 @@ function parseQueryParams(params: CastMemberParams) {
 }
 
 function getCastMembers(params: CastMemberParams) {
-  const {
-    page = 1,
-    perPage = 10,
-    search,
-    type
-  } = params;
+  const { page = 1, perPage = 10, search = "", type } = params;
 
   return `${endpointUrl}?${parseQueryParams({
     page,
