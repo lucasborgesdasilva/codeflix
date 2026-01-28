@@ -7,6 +7,7 @@ import { Header } from './components/Header';
 import { Layout } from './components/Layout';
 import { appTheme } from './config/theme';
 import { CastMembersCreate } from './features/cast-members/cast-members-create';
+import { CastMembersEdit } from './features/cast-members/cast-members-edit';
 import { CastMembersList } from './features/cast-members/cast-members-list';
 import { CategoryCreate } from './features/categories/category-create';
 import { CategoryEdit } from './features/categories/category-edit';
@@ -32,7 +33,7 @@ function App() {
 
               <Route path='cast-members' element={<CastMembersList />} />
               <Route path='cast-members/create' element={<CastMembersCreate />} />
-              <Route path='categories/edit/:id' element={<CategoryEdit />} />
+              <Route path='cast-members/edit/:id' element={<CastMembersEdit />} />
 
               <Route path='*' element={
                 <Box sx={{ color: "white" }}>
