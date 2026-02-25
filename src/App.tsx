@@ -2,7 +2,6 @@ import { Typography } from '@mui/material';
 import { Box, ThemeProvider } from '@mui/system';
 import { SnackbarProvider } from 'notistack';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
 import { Header } from './components/Header';
 import { Layout } from './components/Layout';
 import { appTheme } from './config/theme';
