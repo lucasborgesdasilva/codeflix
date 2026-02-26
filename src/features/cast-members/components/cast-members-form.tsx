@@ -27,7 +27,7 @@ export function CastMemberForm({
                 required
                 name="name"
                 label="Name"
-                value={castMember.name ?? ""}
+                value={castMember.name}
                 disabled={isDisabled}
                 onChange={handleChange}
               />
@@ -59,9 +59,9 @@ export function CastMemberForm({
                 type="submit"
                 variant="contained"
                 color="secondary"
-                disabled={isDisabled}
+                disabled={isDisabled || isLoading}
               >
-                Save
+                {isLoading ? "Loading..." : "Save"}
               </Button>
             </Box>
           </Grid>
