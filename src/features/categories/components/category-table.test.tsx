@@ -76,4 +76,19 @@ describe("CategoryTable", () => {
 
     expect(asFragment()).toMatchSnapshot();
   });
+
+  it("should render CategoryTable with Inactive value", () => {
+    const { asFragment } = render(
+      <CategoryTable
+        {...Props}
+        data={{
+          ...mockData,
+          data: [{ ...mockData.data[0], is_active: false }],
+        }}
+      />,
+      { wrapper: BrowserRouter },
+    );
+
+    expect(asFragment()).toMatchSnapshot();
+  });
 });
