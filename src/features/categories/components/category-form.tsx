@@ -29,7 +29,7 @@ export function CategoryForm({
                 required
                 name="name"
                 label="Name"
-                value={category.name ?? ""}
+                value={category.name}
                 disabled={isDisabled}
                 onChange={handleChange}
               />
@@ -42,7 +42,7 @@ export function CategoryForm({
                 required
                 name="description"
                 label="Description"
-                value={category.description ?? ""}
+                value={category.description}
                 disabled={isDisabled}
                 onChange={handleChange}
               />
@@ -75,9 +75,9 @@ export function CategoryForm({
                 type="submit"
                 variant="contained"
                 color="secondary"
-                disabled={isDisabled}
+                disabled={isDisabled || isLoading}
               >
-                Save
+                {isLoading ? "Loading..." : "Save"}
               </Button>
             </Box>
           </Grid>
