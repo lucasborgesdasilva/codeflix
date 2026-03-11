@@ -10,10 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 import type { AppStore, RootState } from "../app/store";
 import { setupStore } from "../app/store";
 
-interface ExtendedRenderOptions extends Omit<
-  RenderOptions,
-  "queries" | "wrapper"
-> {
+interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   preloadedState?: PreloadedState<RootState>;
   store?: AppStore;
 }
