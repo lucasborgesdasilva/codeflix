@@ -3,7 +3,10 @@ import { GridFilterModel } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDeleteCategoryMutation, useGetCategoriesQuery } from "./category-slice";
+import {
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from "./category-slice";
 import { CategoryTable } from "./components/category-table";
 
 export const CategoryList = () => {
@@ -12,7 +15,7 @@ export const CategoryList = () => {
   const [search, setSearch] = useState("");
   const [rowsPerPage] = useState([10, 25, 50, 100]);
 
-  const options = { perPage, search, page }
+  const options = { perPage, search, page };
 
   const { data, isFetching, error } = useGetCategoriesQuery(options);
   const [deleteCategory, deleteCategoryStatus] = useDeleteCategoryMutation();
@@ -27,7 +30,7 @@ export const CategoryList = () => {
   }
 
   function handleOnPageSizeChange(perPage: number) {
-    setPerPage(perPage)
+    setPerPage(perPage);
   }
 
   function handleOnFilterChange(filterModel: GridFilterModel) {
@@ -36,7 +39,7 @@ export const CategoryList = () => {
       return setSearch(search);
     }
 
-    return setSearch("")
+    return setSearch("");
   }
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export const CategoryList = () => {
     if (error) {
       enqueueSnackbar("Error fetching categories", { variant: "error" });
     }
-  }, [deleteCategoryStatus, enqueueSnackbar, error])
+  }, [deleteCategoryStatus, enqueueSnackbar, error]);
 
   return (
     <Box maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -61,7 +64,8 @@ export const CategoryList = () => {
           color="secondary"
           component={Link}
           to="/categories/create"
-          sx={{ marginBottom: "1rem" }}>
+          sx={{ marginBottom: "1rem" }}
+        >
           New Category
         </Button>
       </Box>
@@ -77,5 +81,5 @@ export const CategoryList = () => {
         handleFilterChange={handleOnFilterChange}
       />
     </Box>
-  )
+  );
 };
