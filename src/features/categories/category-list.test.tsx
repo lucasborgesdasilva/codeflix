@@ -72,4 +72,25 @@ describe("CategoryList", () => {
       expect(name).toBeInTheDocument();
     });
   });
+
+  it("should handle FilterChange", async () => {
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+      const name = screen.getByText("Orchid");
+      expect(name).toBeInTheDocument();
+    });
+
+    const input = screen.getByPlaceholderText("Search…"); //Pega o Input que tem o placeholder Search...
+
+    // FireEvent on Change
+    fireEvent.change(input, {
+      target: { value: "Cyan" },
+    });
+
+    await waitFor(() => {
+      const loading = screen.getByRole("progressbar");
+      expect(loading).toBeInTheDocument();
+    });
+  });
 });

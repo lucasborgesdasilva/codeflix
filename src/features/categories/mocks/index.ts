@@ -9,6 +9,15 @@ export const categoryResponse = {
       "created_at": "2026-03-11T00:45:53+0000",
       "updated_at": "2026-03-11T00:45:53+0000"
     },
+    {
+      "id": "81e605b8-dfb6-4534-9633-2918b34b5b47",
+      "name": "Cyan",
+      "description": null,
+      "is_active": true,
+      "deleted_at": null,
+      "created_at": "2026-03-19T00:58:07+0000",
+      "updated_at": "2026-03-19T00:58:07+0000"
+    },
   ],
   "links": {
     "first": "http://localhost:8000/api/categories?page=1",
