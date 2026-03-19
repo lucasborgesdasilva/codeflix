@@ -1,13 +1,21 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { renderWithProviders, screen, waitFor } from "../../utils/test-utils";
+import {
+  fireEvent,
+  renderWithProviders,
+  screen,
+  waitFor,
+} from "../../utils/test-utils";
 import { baseUrl } from "../api/api-slice";
 import { CategoryList } from "./category-list";
-import { categoryResponse } from "./mocks";
+import { categoryResponse, categoryResponse2 } from "./mocks";
 
 export const handlers = [
   //Find all
-  rest.get(`${baseUrl}/categories`, (_, res, ctx) => {
+  rest.get(`${baseUrl}/categories`, (req, res, ctx) => {
+    if (req.url.searchParams.get("page") === "2") {
+      return res(ctx.json(categoryResponse2), ctx.delay(150));
+    }
     return res(ctx.json(categoryResponse), ctx.delay(150));
   }),
 ];
@@ -24,19 +32,11 @@ describe("CategoryList", () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  // it("should render loading state", async () => {
-  //   renderWithProviders(<CategoryList />);
-
-  //   const loading = await screen.findByRole("progressbar");
-  //   expect(loading).toBeInTheDocument();
-  // });
-
   it("should render success state", async () => {
     renderWithProviders(<CategoryList />);
 
     await waitFor(() => {
       const name = screen.getByText("Orchid");
-
       expect(name).toBeInTheDocument();
     });
   });
@@ -53,6 +53,23 @@ describe("CategoryList", () => {
     await waitFor(() => {
       const error = screen.getByText("Error fetching categories");
       expect(error).toBeInTheDocument();
+    });
+  });
+
+  it("should handle On PageChange", async () => {
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+      const name = screen.getByText("Orchid");
+      expect(name).toBeInTheDocument();
+    });
+
+    const nextButton = screen.getByTestId("KeyboardArrowRightIcon");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      const name = screen.getByText("BlanchedAlmond");
+      expect(name).toBeInTheDocument();
     });
   });
 });
