@@ -130,6 +130,7 @@ exports[`CategoryForm should render CategoryForm wit loading 1`] = `
                 <span
                   aria-label="controlled"
                   class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-checked css-1wwrlr5-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
+                  data-testid="is_active"
                 >
                   <input
                     checked=""
@@ -311,6 +312,7 @@ exports[`CategoryForm should render correctly 1`] = `
                 <span
                   aria-label="controlled"
                   class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-checked css-1wwrlr5-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
+                  data-testid="is_active"
                 >
                   <input
                     checked=""
