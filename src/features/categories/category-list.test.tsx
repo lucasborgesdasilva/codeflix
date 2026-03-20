@@ -18,6 +18,18 @@ export const handlers = [
     }
     return res(ctx.json(categoryResponse), ctx.delay(150));
   }),
+
+  //delete
+  //Adicionamos o id do category que queremos deletar, para que o msw saiba qual endpoint ele deve interceptar, e retornar a resposta correta.
+  rest.delete(`${baseUrl}/categories/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+
+    if (id === "0711af0c-7d83-442f-a1b2-54e2eb3c8295") {
+      return res(ctx.status(204), ctx.delay(150));
+    }
+
+    return res(ctx.status(500), ctx.delay(150));
+  }),
 ];
 
 const server = setupServer(...handlers);
@@ -91,6 +103,42 @@ describe("CategoryList", () => {
     await waitFor(() => {
       const loading = screen.getByRole("progressbar");
       expect(loading).toBeInTheDocument();
+    });
+  });
+
+  it("should handle Delete Category success", async () => {
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+      const name = screen.getByText("Orchid");
+      expect(name).toBeInTheDocument();
+    });
+
+    //Como não temos algo que identifica nosso botão de delete, vamos atribuir a ele, um data-testId.
+    const button = screen.getAllByTestId("delete-button")[0]; //Pega o primeiro botão de delete, como tem mais de um, usamos o index 0.
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const error = screen.getByText("Category deleted success!");
+      expect(error).toBeInTheDocument();
+    });
+  });
+
+  it("should handle Delete Category error", async () => {
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+      const name = screen.getByText("Orchid");
+      expect(name).toBeInTheDocument();
+    });
+
+    //Como eu quero que de erro, eu pego o segundo botão de delete, que tem um id diferente do que o msw espera, e por isso ele vai retornar um erro.
+    const button = screen.getAllByTestId("delete-button")[1];
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const error = screen.getByText("Category not deleted");
+      expect(error).toBeInTheDocument();
     });
   });
 });
