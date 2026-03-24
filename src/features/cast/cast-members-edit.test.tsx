@@ -7,53 +7,80 @@ import {
   waitFor,
 } from "../../utils/test-utils";
 import { baseUrl } from "../api/api-slice";
-import { CastMembersCreate } from "./cast-members-create";
+import { CastMembersEdit } from "./cast-members-edit";
+
+const data = {
+  id: "1",
+  name: "test",
+  type: "1",
+};
 
 export const handlers = [
-  rest.post(`${baseUrl}/cast_members`, (req, res, ctx) => {
+  rest.get(`${baseUrl}/cast_members/1`, (_, res, ctx) => {
+    return res(ctx.delay(150), ctx.status(200), ctx.json({ data }));
+  }),
+  rest.put(`${baseUrl}/cast_members/1`, (_, res, ctx) => {
     return res(ctx.delay(150), ctx.status(201));
   }),
 ];
 
 const server = setupServer(...handlers);
 
-describe("CreateCastMember", () => {
+describe("EditCastMember", () => {
   afterAll(() => server.close());
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
 
   it("should render correctly", () => {
-    const { asFragment } = renderWithProviders(<CastMembersCreate />);
+    const { asFragment } = renderWithProviders(<CastMembersEdit />);
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("should handle submit", async () => {
-    renderWithProviders(<CastMembersCreate />);
+    renderWithProviders(<CastMembersEdit />);
 
     const name = screen.getByTestId("name");
-    const submit = screen.getByText("Save");
 
+    await waitFor(() => {
+      expect(name).toHaveValue("test");
+    });
+
+    await waitFor(() => {
+      const submit = screen.getByText("Save");
+      expect(submit).toBeInTheDocument();
+    });
+
+    const submit = screen.getByText("Save");
     fireEvent.change(name, { target: { value: "Test" } });
     fireEvent.click(submit);
 
     await waitFor(() => {
-      const text = screen.getByText("Cast member created successfully!");
+      const text = screen.getByText("Cast member updated successfully!");
       expect(text).toBeInTheDocument();
     });
   });
 
   it("should handle submit error", async () => {
     server.use(
-      rest.post(`${baseUrl}/cast_members`, (req, res, ctx) => {
+      rest.put(`${baseUrl}/cast_members/1`, (_, res, ctx) => {
         return res(ctx.delay(150), ctx.status(500));
       }),
     );
 
-    renderWithProviders(<CastMembersCreate />);
+    renderWithProviders(<CastMembersEdit />);
 
     const name = screen.getByTestId("name");
-    const submit = screen.getByText("Save");
 
+    await waitFor(() => {
+      expect(name).toHaveValue("test");
+    });
+
+    await waitFor(() => {
+      const submit = screen.getByText("Save");
+      expect(submit).toBeInTheDocument();
+    });
+
+    const submit = screen.getByText("Save");
     fireEvent.change(name, { target: { value: "Test" } });
     fireEvent.click(submit);
 
