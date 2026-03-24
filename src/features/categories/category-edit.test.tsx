@@ -19,7 +19,7 @@ const data = {
 };
 
 export const handlers = [
-  rest.get(`${baseUrl}/categories/undefined`, (_, res, ctx) => {
+  rest.get(`${baseUrl}/categories/1`, (_, res, ctx) => {
     return res(ctx.delay(150), ctx.json({ data }));
   }),
 
@@ -60,6 +60,37 @@ describe("EditCategory", () => {
 
     await waitFor(() => {
       const text = screen.getByText("Category updated successfully!");
+      expect(text).toBeInTheDocument();
+    });
+  });
+
+  it("should handle submit error", async () => {
+    server.use(
+      rest.put(`${baseUrl}/categories/1`, (_, res, ctx) => {
+        return res(ctx.status(400));
+      }),
+    );
+
+    renderWithProviders(<CategoryEdit />);
+
+    const name = screen.getByTestId("name");
+    const description = screen.getByTestId("description");
+    const isActive = screen.getByTestId("is_active");
+
+    const submit = screen.getByText("Save");
+
+    await waitFor(() => {
+      expect(name).toHaveValue("Orchid");
+    });
+
+    fireEvent.change(name, { target: { value: "Orchid edited" } });
+    fireEvent.change(description, { target: { value: "Description edited" } });
+    fireEvent.click(isActive);
+
+    fireEvent.click(submit);
+
+    await waitFor(() => {
+      const text = screen.getByText("Some went wrong!");
       expect(text).toBeInTheDocument();
     });
   });
