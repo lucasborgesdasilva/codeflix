@@ -1,6 +1,17 @@
-import { Box, Button, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { CastMember } from '../../../types/cast-members';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  TextField,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import { CastMember } from "../../../types/cast-members";
 
 type FormProps = {
   castMember: CastMember;
@@ -8,14 +19,14 @@ type FormProps = {
   isLoading?: boolean;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 export function CastMemberForm({
   castMember,
   isDisabled = false,
   isLoading = false,
   handleSubmit,
-  handleChange
+  handleChange,
 }: FormProps) {
   return (
     <Box p={2}>
@@ -30,6 +41,7 @@ export function CastMemberForm({
                 value={castMember.name}
                 disabled={isDisabled}
                 onChange={handleChange}
+                slotProps={{ htmlInput: { "data-testid": "name" } }}
               />
             </FormControl>
           </Grid>
@@ -38,13 +50,18 @@ export function CastMemberForm({
             <FormGroup>
               <FormLabel>Type</FormLabel>
               <RadioGroup
-                aria-labelledby='type of cast member'
+                aria-labelledby="type of cast member"
                 defaultValue="Director"
-                name='type'
+                name="type"
                 onChange={handleChange}
                 value={castMember.type}
+                data-testid="type"
               >
-                <FormControlLabel value={1} control={<Radio />} label="Director" />
+                <FormControlLabel
+                  value={1}
+                  control={<Radio />}
+                  label="Director"
+                />
                 <FormControlLabel value={2} control={<Radio />} label="Actor" />
               </RadioGroup>
             </FormGroup>
@@ -68,5 +85,5 @@ export function CastMemberForm({
         </Grid>
       </form>
     </Box>
-  )
+  );
 }

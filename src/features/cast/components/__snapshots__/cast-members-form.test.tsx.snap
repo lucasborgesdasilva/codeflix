@@ -38,6 +38,7 @@ exports[`CastMemberForm should render castMember form correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="name"
                   id="_r_0_"
                   name="name"
                   required=""
@@ -74,6 +75,7 @@ exports[`CastMemberForm should render castMember form correctly 1`] = `
             <div
               aria-labelledby="type of cast member"
               class="MuiFormGroup-root MuiRadioGroup-root css-1mac7pt-MuiFormGroup-root"
+              data-testid="type"
               role="radiogroup"
             >
               <label
@@ -236,6 +238,7 @@ exports[`CastMemberForm should render castMember form with disabled state 1`] = 
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="name"
                   disabled=""
                   id="_r_8_"
                   name="name"
@@ -273,6 +276,7 @@ exports[`CastMemberForm should render castMember form with disabled state 1`] = 
             <div
               aria-labelledby="type of cast member"
               class="MuiFormGroup-root MuiRadioGroup-root css-1mac7pt-MuiFormGroup-root"
+              data-testid="type"
               role="radiogroup"
             >
               <label
@@ -436,6 +440,7 @@ exports[`CastMemberForm should render castMember form with loading state 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="name"
                   id="_r_4_"
                   name="name"
                   required=""
@@ -472,6 +477,7 @@ exports[`CastMemberForm should render castMember form with loading state 1`] = `
             <div
               aria-labelledby="type of cast member"
               class="MuiFormGroup-root MuiRadioGroup-root css-1mac7pt-MuiFormGroup-root"
+              data-testid="type"
               role="radiogroup"
             >
               <label
