@@ -52,7 +52,7 @@ export const castMemberResponse2 = {
     "next": "http://localhost:8000/api/cast_members?page=2"
   },
   "meta": {
-    "current_page": 1,
+    "current_page": 2,
     "from": 1,
     "last_page": 7,
     "path": "http://localhost:8000/api/cast_members",

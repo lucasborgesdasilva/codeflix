@@ -1,12 +1,21 @@
 import { rest } from "msw";
 import { setupServer } from "msw/lib/node";
-import { renderWithProviders, screen, waitFor } from "../../utils/test-utils";
+import {
+  fireEvent,
+  renderWithProviders,
+  screen,
+  waitFor,
+} from "../../utils/test-utils";
 import { baseUrl } from "../api/api-slice";
 import { CastMembersList } from "./cast-members-list";
-import { castMemberResponse } from "./mocks";
+import { castMemberResponse, castMemberResponse2 } from "./mocks";
 
 export const handlers = [
-  rest.get(`${baseUrl}/cast_members`, (_, res, ctx) => {
+  rest.get(`${baseUrl}/cast_members`, (req, res, ctx) => {
+    //check if is page 2
+    if (req.url.searchParams.get("page") === "2") {
+      return res(ctx.delay(150), ctx.json(castMemberResponse2));
+    }
     return res(ctx.delay(150), ctx.status(200), ctx.json(castMemberResponse));
   }),
 ];
@@ -50,6 +59,40 @@ describe("ListCastMember", () => {
     await waitFor(() => {
       const error = screen.getByText("Error fetching cast members");
       expect(error).toBeInTheDocument();
+    });
+  });
+
+  it("should handle on PageChange", async () => {
+    renderWithProviders(<CastMembersList />);
+
+    await waitFor(() => {
+      const table = screen.getByText("Gutkowski");
+      expect(table).toBeInTheDocument();
+    });
+
+    const nextButton = screen.getByTestId("KeyboardArrowRightIcon");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      const table = screen.getByText("Cummerata");
+      expect(table).toBeInTheDocument();
+    });
+  });
+
+  it("should handle FilterChange", async () => {
+    renderWithProviders(<CastMembersList />);
+
+    await waitFor(() => {
+      const table = screen.getByText("Gutkowski");
+      expect(table).toBeInTheDocument();
+    });
+
+    const input = screen.getByPlaceholderText("Search…");
+    fireEvent.change(input, { target: { value: "Gutkowski" } });
+
+    await waitFor(() => {
+      const loading = screen.getByRole("progressbar");
+      expect(loading).toBeInTheDocument();
     });
   });
 });
