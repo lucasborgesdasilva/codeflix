@@ -1,6 +1,15 @@
-import { Box, Button, FormControl, FormControlLabel, FormGroup, Grid, Switch, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { Category } from '../../../types/category';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Switch,
+  TextField,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import { Category } from "../../../types/category";
 
 type FormProps = {
   category: Category;
@@ -9,7 +18,7 @@ type FormProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleToggle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 export function CategoryForm({
   category,
@@ -17,7 +26,7 @@ export function CategoryForm({
   isLoading = false,
   handleSubmit,
   handleChange,
-  handleToggle
+  handleToggle,
 }: FormProps) {
   return (
     <Box p={2}>
@@ -29,9 +38,10 @@ export function CategoryForm({
                 required
                 name="name"
                 label="Name"
-                value={category.name ?? ""}
+                value={category.name}
                 disabled={isDisabled}
                 onChange={handleChange}
+                slotProps={{ htmlInput: { "data-testid": "name" } }}
               />
             </FormControl>
           </Grid>
@@ -42,9 +52,10 @@ export function CategoryForm({
                 required
                 name="description"
                 label="Description"
-                value={category.description ?? ""}
+                value={category.description}
                 disabled={isDisabled}
                 onChange={handleChange}
+                slotProps={{ htmlInput: { "data-testid": "description" } }}
               />
             </FormControl>
           </Grid>
@@ -59,6 +70,7 @@ export function CategoryForm({
                     onChange={handleToggle}
                     checked={category.is_active}
                     aria-label="controlled"
+                    data-testid="is_active"
                   />
                 }
                 label="Active"
@@ -75,14 +87,14 @@ export function CategoryForm({
                 type="submit"
                 variant="contained"
                 color="secondary"
-                disabled={isDisabled}
+                disabled={isDisabled || isLoading}
               >
-                Save
+                {isLoading ? "Loading..." : "Save"}
               </Button>
             </Box>
           </Grid>
         </Grid>
       </form>
     </Box>
-  )
+  );
 }

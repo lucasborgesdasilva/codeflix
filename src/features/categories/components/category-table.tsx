@@ -1,6 +1,12 @@
 import { Delete } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridFilterModel, GridRenderCellParams, GridRowsProp } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridFilterModel,
+  GridRenderCellParams,
+  GridRowsProp,
+} from "@mui/x-data-grid";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Results } from "../../../types/category";
@@ -14,7 +20,7 @@ type Props = {
   handleFilterChange: (filterModel: GridFilterModel) => void;
   handleOnPageSizeChange: (perPage: number) => void;
   handleDelete: (id: string) => void;
-}
+};
 
 export const CategoryTable = ({
   data,
@@ -24,7 +30,7 @@ export const CategoryTable = ({
   handleOnPageChange,
   handleFilterChange,
   handleOnPageSizeChange,
-  handleDelete
+  handleDelete,
 }: Props) => {
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -33,34 +39,34 @@ export const CategoryTable = ({
 
   const filterModel = {
     items: [],
-  }
+  };
 
   const rowCount = data?.meta.total ?? 0;
 
   const rows: GridRowsProp = data ? mapDataToGridRows(data) : [];
   const columns: GridColDef[] = [
     {
-      field: 'name',
-      headerName: 'Name',
+      field: "name",
+      headerName: "Name",
       flex: 1,
       renderCell: renderNameCell,
     },
     {
-      field: 'is_active',
-      headerName: 'Active?',
+      field: "is_active",
+      headerName: "Active?",
       width: 150,
       type: "boolean",
       renderCell: renderIsActiveCell,
     },
     {
-      field: 'createdAt',
-      headerName: 'Created At',
+      field: "createdAt",
+      headerName: "Created At",
       flex: 1,
-      type: "date"
+      type: "date",
     },
     {
-      field: 'id',
-      headerName: 'Actions',
+      field: "id",
+      headerName: "Actions",
       headerAlign: "center",
       flex: 1,
       align: "center",
@@ -71,7 +77,7 @@ export const CategoryTable = ({
 
   function mapDataToGridRows(data: Results) {
     const { data: categories } = data;
-    return categories.map(category => ({
+    return categories.map((category) => ({
       id: category.id,
       name: category.name,
       is_active: category.is_active,
@@ -93,20 +99,24 @@ export const CategoryTable = ({
         color="secondary"
         onClick={() => handleDelete(params.value)}
         aria-label="delete"
+        data-testid="delete-button" //Agora conseguimos pegar nos testes esse botão.
       >
         <Delete />
       </IconButton>
-    )
+    );
   }
 
   function renderNameCell(params: GridRenderCellParams) {
     return (
       <Box sx={{ height: 50, display: "flex", alignItems: "center" }}>
-        <Link style={{ textDecoration: "none" }} to={`/categories/edit/${params.id}`} >
+        <Link
+          style={{ textDecoration: "none" }}
+          to={`/categories/edit/${params.id}`}
+        >
           <Typography color="primary">{params.value}</Typography>
         </Link>
       </Box>
-    )
+    );
   }
 
   return (
@@ -129,7 +139,7 @@ export const CategoryTable = ({
         disableRowSelectionOnClick
         showToolbar
         checkboxSelection={false}
-        onPaginationModelChange={model => {
+        onPaginationModelChange={(model) => {
           setPaginationModel(model);
 
           handleOnPageChange(model.page);
@@ -138,5 +148,5 @@ export const CategoryTable = ({
         onFilterModelChange={handleFilterChange}
       />
     </Box>
-  )
-}
+  );
+};

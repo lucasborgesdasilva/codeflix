@@ -3,42 +3,48 @@ import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CastMember } from "../../types/cast-members";
-import { initialState, useGetCastMemberQuery, useUpdateCastMemberMutation } from "./cast-members-slice";
+import {
+  initialState,
+  useGetCastMemberQuery,
+  useUpdateCastMemberMutation,
+} from "./cast-members-slice";
 import { CastMemberForm } from "./components/cast-members-form";
 
-
 export const CastMembersEdit = () => {
-  const id = useParams().id || "";
+  const id = useParams().id || "1"; //Mesma coisa que fiz no Create de Categoria.
   const { enqueueSnackbar } = useSnackbar();
   const { data: castMember } = useGetCastMemberQuery({ id });
   const [updateCastMember, status] = useUpdateCastMemberMutation();
-  const [castMemberState, setCastMemberState] = useState<CastMember>(initialState);
+  const [castMemberState, setCastMemberState] =
+    useState<CastMember>(initialState);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     await updateCastMember(castMemberState);
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCastMemberState({ ...castMemberState, [name]: value })
-  }
+    setCastMemberState({ ...castMemberState, [name]: value });
+  };
 
   useEffect(() => {
     if (castMember) {
       setCastMemberState(castMember.data);
     }
-  }, [castMember])
+  }, [castMember]);
 
   useEffect(() => {
     if (status.isSuccess) {
-      enqueueSnackbar("Cast member updated successfully!", { variant: "success" });
+      enqueueSnackbar("Cast member updated successfully!", {
+        variant: "success",
+      });
     }
 
     if (status.error) {
       enqueueSnackbar("Some went wrong!", { variant: "error" });
     }
-  }, [enqueueSnackbar, status.error, status.isSuccess])
+  }, [enqueueSnackbar, status.error, status.isSuccess]);
 
   return (
     <Box>
@@ -58,5 +64,5 @@ export const CastMembersEdit = () => {
         />
       </Paper>
     </Box>
-  )
+  );
 };

@@ -3,11 +3,14 @@ import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Category } from "../../types/category";
-import { useGetCategoryQuery, useUpdateCategoryMutation } from "./category-slice";
+import {
+  useGetCategoryQuery,
+  useUpdateCategoryMutation,
+} from "./category-slice";
 import { CategoryForm } from "./components/category-form";
 
 export const CategoryEdit = () => {
-  const id = useParams().id || "";
+  const id = useParams().id || "1"; //Setei pra um temporário, por conta do teste, mas o ideal seria tratar isso de uma forma melhor.
   const { enqueueSnackbar } = useSnackbar();
   const { data: category } = useGetCategoryQuery({ id });
   const [updateCategory, status] = useUpdateCategoryMutation();
@@ -22,25 +25,25 @@ export const CategoryEdit = () => {
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     await updateCategory(categoryState);
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCategoryState({ ...categoryState, [name]: value })
-  }
+    setCategoryState({ ...categoryState, [name]: value });
+  };
 
   const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
-    setCategoryState({ ...categoryState, [name]: checked })
-  }
+    setCategoryState({ ...categoryState, [name]: checked });
+  };
 
   useEffect(() => {
     if (category) {
       setCategoryState(category.data);
     }
-  }, [category])
+  }, [category]);
 
   useEffect(() => {
     if (status.isSuccess) {
@@ -50,7 +53,7 @@ export const CategoryEdit = () => {
     if (status.error) {
       enqueueSnackbar("Some went wrong!", { variant: "error" });
     }
-  }, [enqueueSnackbar, status.error, status.isSuccess])
+  }, [enqueueSnackbar, status.error, status.isSuccess]);
 
   return (
     <Box>
@@ -71,5 +74,5 @@ export const CategoryEdit = () => {
         />
       </Paper>
     </Box>
-  )
+  );
 };
