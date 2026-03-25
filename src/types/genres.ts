@@ -1,6 +1,6 @@
 import { Category } from "./category";
 
-export interface Genre {
+export interface Results {
     data:  Genre[];
     links: Links;
     meta:  Meta;
@@ -10,17 +10,17 @@ export interface Genre {
   id:           string;
   name:         string;
   isActive:     boolean;
-  deletedAt:    null;
-  createdAt:    string;
-  updatedAt:    string;
+  deleted_at:    null;
+  created_at:    string;
+  updated_at:    string;
   categories?:  Category[];
   description?: null | string;
   pivot?:       Pivot;
 }
 
 export interface Pivot {
-  genreID:    string;
-  categoryID: string;
+  genre_id:    string;
+  category_id: string;
 }
 
 export interface Links {

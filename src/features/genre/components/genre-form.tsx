@@ -11,7 +11,7 @@ import { Category } from "../../../types/category";
 
 type GenreFormProps = {
   genre: any;
-  categories: Category[];
+  categories?: Category[];
   isLoading?: boolean;
   isDisabled?: boolean;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
