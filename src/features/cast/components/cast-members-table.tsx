@@ -1,6 +1,12 @@
 import { Delete } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridFilterModel, GridRenderCellParams, GridRowsProp } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridFilterModel,
+  GridRenderCellParams,
+  GridRowsProp,
+} from "@mui/x-data-grid";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Results } from "../../../types/cast-members";
@@ -14,7 +20,7 @@ type Props = {
   handleFilterChange: (filterModel: GridFilterModel) => void;
   handleOnPageSizeChange: (perPage: number) => void;
   handleDelete: (id: string) => void;
-}
+};
 
 export const CastMembersTable = ({
   data,
@@ -24,7 +30,7 @@ export const CastMembersTable = ({
   handleOnPageChange,
   handleFilterChange,
   handleOnPageSizeChange,
-  handleDelete
+  handleDelete,
 }: Props) => {
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -33,7 +39,7 @@ export const CastMembersTable = ({
 
   const filterModel = {
     items: [],
-  }
+  };
 
   const rowCount = data?.meta.total ?? 0;
 
@@ -41,21 +47,21 @@ export const CastMembersTable = ({
   const columns: GridColDef[] = [
     {
       flex: 1,
-      field: 'name',
-      headerName: 'Name',
+      field: "name",
+      headerName: "Name",
       renderCell: renderNameCell,
     },
     {
       flex: 1,
-      field: 'type',
-      headerName: 'Type',
+      field: "type",
+      headerName: "Type",
       type: "boolean",
       renderCell: renderTypeCell,
     },
     {
       flex: 1,
-      field: 'id',
-      headerName: 'Actions',
+      field: "id",
+      headerName: "Actions",
       headerAlign: "center",
       align: "center",
       type: "string",
@@ -65,10 +71,10 @@ export const CastMembersTable = ({
 
   function mapDataToGridRows(data: Results) {
     const { data: castMembers } = data;
-    return castMembers.map(castMember => ({
+    return castMembers.map((castMember) => ({
       id: castMember.id,
       name: castMember.name,
-      type: castMember.type
+      type: castMember.type,
     }));
   }
 
@@ -86,20 +92,24 @@ export const CastMembersTable = ({
         color="secondary"
         onClick={() => handleDelete(params.value)}
         aria-label="delete"
+        data-testid="delete-button"
       >
         <Delete />
       </IconButton>
-    )
+    );
   }
 
   function renderNameCell(params: GridRenderCellParams) {
     return (
       <Box sx={{ height: 50, display: "flex", alignItems: "center" }}>
-        <Link style={{ textDecoration: "none" }} to={`/cast-members/edit/${params.id}`} >
+        <Link
+          style={{ textDecoration: "none" }}
+          to={`/cast-members/edit/${params.id}`}
+        >
           <Typography color="primary">{params.value}</Typography>
         </Link>
       </Box>
-    )
+    );
   }
 
   return (
@@ -122,7 +132,7 @@ export const CastMembersTable = ({
         disableRowSelectionOnClick
         showToolbar
         checkboxSelection={false}
-        onPaginationModelChange={model => {
+        onPaginationModelChange={(model) => {
           setPaginationModel(model);
 
           handleOnPageChange(model.page);
@@ -131,5 +141,5 @@ export const CastMembersTable = ({
         onFilterModelChange={handleFilterChange}
       />
     </Box>
-  )
-}
+  );
+};
