@@ -10,16 +10,17 @@ export const GenreCreate = () => {
             <Typography variant="h4">Create Genre</Typography>
           </Box>
         </Box>
+
+        {/* Genre form */}
+        <GenreForm
+          genre={{}}
+          categories={[]}
+          isLoading={false}
+          isDisabled={false}
+          handleSubmit={() => {}}
+          handleChange={() => {}}
+        />
       </Paper>
-      {/* Genre form */}
-      <GenreForm
-        genre={{}}
-        categories={[]}
-        isLoading={false}
-        isDisabled={false}
-        handleSubmit={() => {}}
-        handleChange={() => {}}
-      />
     </Box>
   );
 };
