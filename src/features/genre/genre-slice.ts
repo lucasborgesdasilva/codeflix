@@ -44,12 +44,12 @@ function createGenreMutation(genre: GenrePayload) {
 }
 
 function getCategories() {
-  return `categories?all=true`;
+  return `/categories?all=true`;
 }
 
 export const genreSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
-    getCategories: query<Results, void>({
+    getCaTegories: query<Results, void>({
       query: getCategories,
     }),
     createGenre: mutation<Genre, GenrePayload>({
@@ -59,4 +59,4 @@ export const genreSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreateGenreMutation, useGetCategoriesQuery } = genreSlice;
+export const { useCreateGenreMutation, useGetCaTegoriesQuery } = genreSlice;

@@ -6,6 +6,12 @@ export interface Results {
     meta:  Meta;
 }
 
+export interface Result {
+    data:  Genre;
+    links: Links;
+    meta:  Meta;
+}
+
 export interface Genre {
   id:           string;
   name:         string;

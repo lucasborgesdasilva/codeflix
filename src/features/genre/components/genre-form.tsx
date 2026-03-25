@@ -8,9 +8,10 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Category } from "../../../types/category";
+import { Genre } from "../../../types/genres";
 
 type GenreFormProps = {
-  genre: any;
+  genre: Genre;
   categories?: Category[];
   isLoading?: boolean;
   isDisabled?: boolean;
@@ -49,9 +50,15 @@ export const GenreForm = ({
               multiple
               disablePortal
               loading={isLoading}
-              options={[]}
+              options={categories || []}
               value={genre.categories}
               disabled={isDisabled || !categories}
+              getOptionLabel={(option) => option.name} // Se fugir do formato que o autocomplete espera, é necessário usar essa função para mapear o valor.
+              renderOption={(props, option) => (
+                <li {...props} key={option.id}>
+                  {option.name}
+                </li>
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -59,6 +66,9 @@ export const GenreForm = ({
                   data-testid="categories-input"
                 />
               )}
+              onChange={(_, value) => {
+                handleChange({ target: { name: "categories", value } } as any);
+              }}
             />
           </Grid>
 

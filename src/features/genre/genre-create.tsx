@@ -6,12 +6,12 @@ import { GenreForm } from "./components/genre-form";
 import {
   initialState as GenreInitialState,
   useCreateGenreMutation,
-  useGetCategoriesQuery,
+  useGetCaTegoriesQuery,
 } from "./genre-slice";
 
 export const GenreCreate = () => {
   const { enqueueSnackbar } = useSnackbar();
-  const { data: categories } = useGetCategoriesQuery();
+  const { data: categories } = useGetCaTegoriesQuery();
   const [createGenre, status] = useCreateGenreMutation();
   const [genre, setGenre] = useState<Genre>(GenreInitialState);
 
@@ -28,7 +28,7 @@ export const GenreCreate = () => {
     await createGenre({
       id: genre.id,
       name: genre.name,
-      categories_id: [""],
+      categories_id: genre.categories?.map((category) => category.id),
     });
   };
 
