@@ -11,6 +11,7 @@ import { CastMembersList } from "./features/cast/cast-members-list";
 import { CategoryCreate } from "./features/categories/category-create";
 import { CategoryEdit } from "./features/categories/category-edit";
 import { CategoryList } from "./features/categories/category-list";
+import { GenreCreate } from "./features/genre/genre-create";
 
 function App() {
   return (
@@ -32,10 +33,12 @@ function App() {
             <Routes>
               <Route path="/" element={<CategoryList />} />
 
+              {/* Categories */}
               <Route path="categories" element={<CategoryList />} />
               <Route path="categories/create" element={<CategoryCreate />} />
               <Route path="categories/edit/:id" element={<CategoryEdit />} />
 
+              {/* Cast Members */}
               <Route path="cast-members" element={<CastMembersList />} />
               <Route
                 path="cast-members/create"
@@ -45,6 +48,9 @@ function App() {
                 path="cast-members/edit/:id"
                 element={<CastMembersEdit />}
               />
+
+              {/* Genre */}
+              <Route path="genres/create" element={<GenreCreate />} />
 
               <Route
                 path="*"
